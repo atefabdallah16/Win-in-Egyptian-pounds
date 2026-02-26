@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>صالون عبدالله</title>
+<style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:Arial;}
+    body{background:linear-gradient(135deg,#000,#001f4d);color:white;display:flex;justify-content:center;min-height:100vh;padding:20px;}
+    .container{width:100%;max-width:400px;background:rgba(0,0,0,0.9);padding:25px;border-radius:20px;box-shadow:0 0 20px #0066ff;text-align:center;}
+    input, select, button{width:100%;padding:12px;margin:10px 0;border-radius:10px;border:none;font-size:16px;}
+    button{background:#0066ff;color:white;cursor:pointer; font-weight: bold;}
+    .booked-option { color: red !important; }
+    .schedule-btn { background: #111; border: 1px solid #0066ff; margin-top: 10px; }
+    .admin-link-btn { background: transparent; color: #555; font-size: 12px; margin-top: 20px; border: 1px solid #333; width: auto; padding: 5px 10px;}
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>✂️ صالون عبدالله للرجال فرع اكتوبر </h1>
+    <p>نحن نقفل اساعه 11:00PM</p>
+    
+    <a href="/public_schedule"><button class="schedule-btn">📅 عرض المواعيد المحجوزة</button></a>
+
+    <form method="POST" action="/book">
+        <input type="text" name="name" placeholder="الاسم" required>
+        <input type="text" name="phone" placeholder="رقم الموبايل" required>
+        
+        <select name="time" required>
+            <option value="">اختر الموعد</option>
+            {% set times = [
+                ('13:00','1:00 م'),('13:30','1:30 م'),('14:00','2:00 م'),('14:30','2:30 م'),
+                ('15:00','3:00 م'),('15:30','3:30 م'),('16:00','4:00 م'),('16:30','4:30 م'),
+                ('17:00','5:00 م'),('17:30','5:30 م'),('18:00','6:00 م'),('18:30','6:30 م'),
+                ('19:00','7:00 م'),('19:30','7:30 م'),('20:00','8:00 م'),('20:30','8:30 م'),
+                ('21:00','9:00 م'),('21:30','9:30 م'),('22:00','10:00 م'),('22:30','10:30 م'),
+                ('23:00','11:00 م'),('23:30','11:30 م')
+            ] %}
+            {% for val, label in times %}
+                {% if val in booked_times %}
+                    <option value="{{val}}" disabled class="booked-option">🔴 {{label}} (محجوز)</option>
+                {% else %}
+                    <option value="{{val}}">🟢 {{label}}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+        <button type="submit">تأكيد الحجز</button>
+    </form>
+    <a href="/login"><button class="admin-link-btn">إدارة النظام (للأدمن)</button></a>
+</div>
+</body>
+</html>
